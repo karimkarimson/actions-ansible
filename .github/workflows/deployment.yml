@@ -17,6 +17,11 @@ jobs:
     uses: karimkarimson/actions-ansible/.github/workflows/tfbuildtest.yml@main
     secrets: inherit
 
+
+  Ansible-Node-BuildandTest:
+    uses: karimkarimson/actions-ansible/.github/workflows/ansiblebuildtest.yml@main
+    secrets: inherit
+
   TF-Deploy-and-Upload:
     runs-on: ubuntu-latest
     needs: TF-Build-and-Test
@@ -33,14 +38,11 @@ jobs:
           path: |
             ./terraform/datapass
 
-  Ansible-Node-BuildandTest:
-    uses: karimkarimson/actions-ansible/.github/workflows/ansiblebuildtest.yml@main
-    secrets: inherit
-
   Deploy-and-Upload:
     runs-on: ubuntu-latest
     needs:
       - Ansible-Node-BuildandTest
+      - TF-Deploy-and-Upload
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v3
