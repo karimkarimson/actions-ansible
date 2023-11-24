@@ -15,8 +15,7 @@ env:
 jobs:
   TF-Build-and-Test:
     uses: karimkarimson/actions-ansible/.github/workflows/tfbuildtest.yml@main
-    with:
-      secrets: inherit
+    secrets: inherit
 
   TF-Deploy-and-Upload:
     runs-on: ubuntu-latest
@@ -36,8 +35,7 @@ jobs:
 
   Ansible-Node-BuildandTest:
     uses: karimkarimson/actions-ansible/.github/workflows/ansiblebuildtest.yml@main
-    with:
-      secrets: inherit
+    secrets: inherit
 
   Deploy-and-Upload:
     runs-on: ubuntu-latest
