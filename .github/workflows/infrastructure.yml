@@ -1,0 +1,34 @@
+# name: Terraform Infrastructure
+# run-name: BDT Infrastructure by 🚀 ${{ github.actor }} 🤖
+# on:
+#   push:
+#     branches:
+#       - infra
+# env:
+#   AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+#   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+#   AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+#   AWS_ENDPOINT_URL_SSO: ${{ vars.AWS_ENDPOINT_URL_SSO }}
+#   AWS_PROFILE: ${{ vars.AWS_PROFILE }}
+#   BUCKET_NAME: "cicd-bucket-k1m0-738135"
+# jobs:
+#   TF-Build-and-Test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check out repository code
+#         uses: actions/checkout@v4
+
+#       - uses: hashicorp/setup-terraform@v2
+#       - run: terraform version
+#       - run: terraform -chdir=./terraform init
+#       - run: terraform -chdir=./terraform validate
+#       - run: terraform -chdir=./terraform plan
+
+#   TF-Deploy-and-Upload:
+#     runs-on: ubuntu-latest
+#     needs: TF-Build-and-Test
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: hashicorp/setup-terraform@v2
+#       - run: terraform -chdir=./terraform init
+#       - run: terraform -chdir=./terraform apply --auto-approve"

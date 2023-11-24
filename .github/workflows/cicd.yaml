@@ -1,0 +1,88 @@
+name: Ansible BTD
+run-name: Build Deploy and Test by 🚀 ${{ github.actor }} 🤖
+on: [push]
+env:
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
+  AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+jobs:
+  TF-Build-and-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v2
+      - run: terraform version
+      - run: terraform -chdir=./terraform init
+      - run: terraform -chdir=./terraform validate
+      - run: terraform -chdir=./terraform plan
+
+  TF-Deploy-and-Upload:
+    runs-on: ubuntu-latest
+    needs: TF-Build-and-Test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v2
+      - run: terraform -chdir=./terraform init
+      - run: terraform -chdir=./terraform apply --auto-approve"
+
+      - name: Upload Infrastructure Files for Ansible Hosts 
+        uses: actions/upload-artifact@v3
+        with: 
+          name: datapass
+          path: |
+            ./terraform/datapass
+
+  Ansible-Node-BuildandTest:
+    runs-on: ubuntu-latest
+    needs:
+      - TF-Deploy-and-Upload
+    steps:
+      - uses: actions/download-artifact@v3
+        name: datapass
+        with:
+          path: ~/
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - run: npm ci
+        working-directory: ./ansible/playbooks/roles/nodejs/files
+      - run: npm test
+
+      - name: Test playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: ./ansible/playbooks/playbook.yml
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          vault_password: ${{secrets.VAULT_PASSWORD}}
+          options: |
+            --inventory ./ansible/hosts.ini
+            --check
+
+  Deploy-and-Upload:
+    runs-on: ubuntu-latest
+    needs:
+      - Ansible-Node-BuildandTest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v3
+        name: datapass
+        with:
+          path: ~/
+
+      - name: Test playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: ./ansible/playbooks/playbook.yml
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          vault_password: ${{secrets.VAULT_PASSWORD}}
+          options: |
+            --inventory ./ansible/hosts.ini

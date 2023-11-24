@@ -1,0 +1,12 @@
+---
+- name: Konfigurieren des Load Balancers
+  hosts: loadbalancer
+  become: true
+  roles:
+    - nginx
+
+- name: Konfigurieren der App-Server
+  hosts: app_servers
+  become: true
+  roles:
+    - nodejs

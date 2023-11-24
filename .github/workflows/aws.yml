@@ -1,0 +1,20 @@
+      # - run: mkdir -p ~/.aws/
+      # - run: echo "[techstarter]" > ~/.aws/credentials
+      # - run: echo "aws_access_key_id=$AWS_ACCESS_KEY" >> ~/.aws/credentials
+      # - run: echo "aws_secret_access_key=$AWS_SECRET_KEY" >> ~/.aws/credentials
+      # - run: echo "aws_session_token=$AWS_SESSION_TOKEN" >> ~/.aws/credentials
+      # - uses: unfor19/install-aws-cli-action@v1
+      # - run: aws configure list-profiles
+      # - run: aws s3 ls --region eu-central-1 --profile techstarter
+
+      # - name: Upload AWS credentials for Test-Job
+      #   uses: actions/upload-artifact@v3
+      #   with: 
+      #     name: .aws
+      #     path: |
+      #       ~/.aws
+      # - uses: actions/download-artifact@v3
+      #   name: .aws
+      #   with:
+      #     path: /home/runner/
+      # - run: cat ~/.aws/credentials

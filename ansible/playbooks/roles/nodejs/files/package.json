@@ -1,0 +1,12 @@
+{
+  "name": "files",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"test coming soon\" "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
