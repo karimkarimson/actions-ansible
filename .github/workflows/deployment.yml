@@ -14,7 +14,7 @@ env:
 
 jobs:
   TF-Build-and-Test:
-    uses: karimkarimson/actions-ansible/.github/workflows/tfbuildtest.yml
+    uses: karimkarimson/actions-ansible/.github/workflows/tfbuildtest.yml@main
     with:
       secrets: inherit
 
@@ -35,7 +35,7 @@ jobs:
             ./terraform/datapass
 
   Ansible-Node-BuildandTest:
-    uses: karimkarimson/actions-ansible/.github/workflows/ansiblebuildtest.yml
+    uses: karimkarimson/actions-ansible/.github/workflows/ansiblebuildtest.yml@main
     with:
       secrets: inherit
 
