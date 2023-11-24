@@ -3,9 +3,12 @@ run-name: by 🚀 ${{ github.actor }} 🤖
 on: 
   workflow_call:
    secrets:
-    - AWS_SESSION_TOKEN
-    - AWS_ACCESS_KEY
-    - AWS_SECRET_KEY
+    AWS_SESSION_TOKEN:
+      required: true
+    AWS_ACCESS_KEY:
+      required: true
+    AWS_SECRET_KEY:
+      required: true
 
 env:
   AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
