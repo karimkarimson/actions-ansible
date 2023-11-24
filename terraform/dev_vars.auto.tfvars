@@ -1,5 +1,5 @@
 # AWS Credentials
-region      = "eu-central-1"
+region = "eu-central-1"
 
 # Variables for EC2 Module
 ami_id            = "ami-06dd92ecc74fdfb36"

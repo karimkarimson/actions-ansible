@@ -15,10 +15,6 @@ variable "key_name" {
   type = string
 }
 
-variable "profile_name" {
-  type = string
-}
-
 variable "cidrs_ssh_ingress" {
   type = list(string)
 }

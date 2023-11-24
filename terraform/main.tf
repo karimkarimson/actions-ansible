@@ -3,7 +3,6 @@ module "ec2" {
 
   # Variables
   key_name          = var.key_name
-  profile_name      = var.aws_profile
   cidrs_ssh_ingress = var.cidrs_ssh_ingress
   cidrs_egress      = var.cidrs_egress
   ami_id            = var.ami_id
