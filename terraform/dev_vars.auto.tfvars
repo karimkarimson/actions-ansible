@@ -1,5 +1,4 @@
 # AWS Credentials
-aws_profile = "ENTER_YOUR_AWS_SSO_CLI_PROFILE"
 region      = "eu-central-1"
 
 # Variables for EC2 Module
