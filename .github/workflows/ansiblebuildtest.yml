@@ -3,7 +3,8 @@ run-name: by 🚀 ${{ github.actor }} 🤖
 on: 
   workflow_call:
    secrets:
-    - SSH_PRIVATE_KEY
+    SSH_PRIVATE_KEY:
+      required: true
 env:
   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
