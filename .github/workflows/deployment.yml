@@ -1,23 +1,20 @@
-name: Ansible BTD
-run-name: Build Deploy and Test by 🚀 ${{ github.actor }} 🤖
-on: [push]
+name: Deploy Infrastructure and Configure Servers
+run-name: Deploy by 🚀 ${{ github.actor }} 🤖
+on:
+  push:
+    tags:
+      - deploy
 env:
   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
   AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+
 jobs:
   TF-Build-and-Test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-
-      - uses: hashicorp/setup-terraform@v2
-      - run: terraform version
-      - run: terraform -chdir=./terraform init
-      - run: terraform -chdir=./terraform validate
-      - run: terraform -chdir=./terraform plan
+    uses: karimkarimson/actions-ansible/.github/workflows/tfbuildtest.yml
+    with:
+      secrets: inherit
 
   TF-Deploy-and-Upload:
     runs-on: ubuntu-latest
@@ -36,30 +33,9 @@ jobs:
             ./terraform/datapass
 
   Ansible-Node-BuildandTest:
-    runs-on: ubuntu-latest
-    needs:
-      - TF-Deploy-and-Upload
-    steps:
-      - uses: actions/download-artifact@v3
-        name: Import Terraform Files
-        with:
-          path: ~/
-      - name: Check ansible Host Files
-        run: ls ~/datapass
-
-      - name: Check out repository code
-        uses: actions/checkout@v4
-
-      - run: cp -r ./ansible/playbooks/roles/nodejs/files/* .
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.x'
-          cache: 'npm'
-
-      - run: npm ci
-        working-directory: ./ansible/playbooks/roles/nodejs/files
-      - run: npm test
+    uses: karimkarimson/actions-ansible/.github/workflows/ansiblebuildtest.yml
+    with:
+      secrets: inherit
 
   Deploy-and-Upload:
     runs-on: ubuntu-latest
@@ -72,7 +48,7 @@ jobs:
         with:
           path: ~/
 
-      - name: Test playbook
+      - name: Use Ansible Playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: ./ansible/playbooks/playbook.yml

@@ -1,0 +1,29 @@
+name: Ansible BuildTest
+run-name: by 🚀 ${{ github.actor }} 🤖
+on: 
+  workflow_call:
+   secrets:
+    - SSH_PRIVATE_KEY
+env:
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+
+jobs:
+  Ansible-Node-BuildandTest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Copy NodeApp Files to HOME
+        run: cp -r ./ansible/playbooks/roles/nodejs/files/* .
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - run: npm ci
+        working-directory: ./ansible/playbooks/roles/nodejs/files
+      - run: npm test
+        working-directory: ./ansible/playbooks/roles/nodejs/files
