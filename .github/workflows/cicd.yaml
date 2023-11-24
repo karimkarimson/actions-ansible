@@ -3,7 +3,6 @@ run-name: Build Deploy and Test by 🚀 ${{ github.actor }} 🤖
 on: [push]
 env:
   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-  VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
   AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
@@ -62,7 +61,6 @@ jobs:
         with:
           playbook: ./ansible/playbooks/playbook.yml
           key: ${{secrets.SSH_PRIVATE_KEY}}
-          vault_password: ${{secrets.VAULT_PASSWORD}}
           options: |
             --inventory ./ansible/hosts.ini
             --check
@@ -83,6 +81,5 @@ jobs:
         with:
           playbook: ./ansible/playbooks/playbook.yml
           key: ${{secrets.SSH_PRIVATE_KEY}}
-          vault_password: ${{secrets.VAULT_PASSWORD}}
           options: |
             --inventory ./ansible/hosts.ini
