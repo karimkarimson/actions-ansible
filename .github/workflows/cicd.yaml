@@ -50,7 +50,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - run: cp ./ansible/playbooks/roles/nodejs/files/* .
+      - run: cp -r ./ansible/playbooks/roles/nodejs/files/* .
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
