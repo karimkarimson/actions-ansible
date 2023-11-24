@@ -26,3 +26,16 @@ variable "cidrs_egress" {
 variable "instance_count" {
   type = number
 }
+variable "subnet_id" {
+  type = list(string)
+}
+
+variable "vpc_cidr" {
+  type = list(string)
+}
+variable "vpc_id" {
+  type = string
+}
+variable "ec2_tags" {
+  type = map(string)
+}
