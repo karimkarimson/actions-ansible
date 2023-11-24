@@ -6,9 +6,6 @@ on:
     - AWS_SESSION_TOKEN
     - AWS_ACCESS_KEY
     - AWS_SECRET_KEY
-  push:
-    branches:
-      - main
 
 env:
   AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}

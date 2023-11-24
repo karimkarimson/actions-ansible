@@ -2,6 +2,8 @@ name: Deploy Infrastructure and Configure Servers
 run-name: Deploy by 🚀 ${{ github.actor }} 🤖
 on:
   push:
+    branches:
+      - main
     tags:
       - deploy
 env:
